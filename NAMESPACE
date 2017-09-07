@@ -1,7 +1,9 @@
-importFrom("sads","octav","rad")
+importFrom("sads", "octav","rad","fitsad","dpoilog")
+importFrom("vegan", "diversity","fisher.alpha","estimateR","veiledspec","prestondistr")
+importFrom("breakaway", "breakaway")
 importFrom("graphics", "plot", "barplot", "par")
 importFrom("utils", "read.csv", "read.delim")
 importFrom("methods", "selectMethod")
-export(getProjectsList,getProjectSummary,projectSamples,projectRuns,runsBySample)
-export(getRunOtu,mergeOtu,getSampleOtu,convertOtuTad,plotOtu)
+export(getProjectsList,getProjectSummary,projectSamples,projectRuns,runsBySample,read.project.csv)
+export(getRunOtu,mergeOtu,getSampleOtu,convertOtuTad,plotOtu,read.otu.tsv,analyseOtu)
 

@@ -25,7 +25,7 @@ ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
 otu=getRunOtu(ps,runs[1])
-tad=plotOtu(otu)
+plotOtu(otu)
 }
 
 \keyword{EMG}

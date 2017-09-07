@@ -25,7 +25,7 @@ biggies = pl$Study.ID[pl$Number.Of.Samples >= 100]
 ps = getProjectSummary(biggies[3])
 
 # Find some 16S projects
-pl$Study.ID[agrep("16S",pl$Project.Name)]
+pl$Study.ID[agrep("16S",pl$Study.Name)]
 }
 
 \keyword{EMG}

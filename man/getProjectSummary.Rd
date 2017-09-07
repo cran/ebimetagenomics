@@ -21,7 +21,7 @@ with the data frame via the attribute \code{project.id}.
 }
 
 \seealso{\code{\link{getProjectsList}}, \code{\link{projectSamples}}, \code{\link{projectRuns}},
-  \code{\link{runsBySample}}}
+  \code{\link{runsBySample}}, \code{\link{read.project.csv}}}
 
 \examples{
 ps=getProjectSummary("SRP047083")

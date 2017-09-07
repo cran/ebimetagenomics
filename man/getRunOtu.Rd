@@ -21,7 +21,7 @@ getRunOtu(summ,runID,verb=FALSE,plot.preston=FALSE)
 An R data frame containing OTU count data. The first column is the OTU ID, the second is the count, and the third contains a taxonomic classification.
 }
 
-\seealso{\code{\link{getSampleOtu}}, \code{\link{mergeOtu}}, \code{\link{projectRuns}}}
+\seealso{\code{\link{getSampleOtu}}, \code{\link{mergeOtu}}, \code{\link{projectRuns}}, \code{\link{convertOtuTad}}, \code{\link{plotOtu}}, \code{\link{read.otu.tsv}}}
 
 \examples{
 ps=getProjectSummary("SRP047083")
