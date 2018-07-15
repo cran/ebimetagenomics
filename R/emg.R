@@ -39,7 +39,13 @@ runsBySample<-function(summ,sampleID) {
 otu.url<-function(summ,runID) {
     runData=summ[runID,]
     projectID=attr(summ,"project.id")
-    url=paste("https://www.ebi.ac.uk/metagenomics//projects",projectID,"samples",runData["Sample.ID"],"runs",runID,"results/versions",sprintf("%.1f",runData["Release.version"]),"taxonomy/OTU-TSV",sep="/")
+    if (runData["Release.version"] > 4) {
+      file="SSU-OTU-TSV"
+    } else {
+      file="OTU-TSV"
+    }
+    url=paste("https://www.ebi.ac.uk/metagenomics//projects",projectID,"samples",runData["Sample.ID"],"runs",runID,"results/versions",sprintf("%.1f",runData["Release.version"]),"taxonomy",file,sep="/")
+    ##message(url) # DEBUG
     url
 }
 
@@ -52,6 +58,7 @@ read.otu.tsv<-function(fileName,...) {
 
 getRunOtu<-function(summ,runID,verb=FALSE,plot.preston=FALSE) {
     url=otu.url(summ,runID)
+    ##message(url) # DEBUG
     if (verb)
         message(runID)
     otu=read.otu.tsv(url)
