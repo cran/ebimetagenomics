@@ -11,7 +11,8 @@ getProjectSummary(projectID)
 }
 
 \arguments{
-  \item{projectID}{A character string representing an EMG project ID (eg. SRP047083).}
+  \item{projectID}{A character string representing an EMG accession ID
+  (eg. MGYS00002669 or SRP047083).}
 }
 
 \value{
@@ -24,9 +25,10 @@ with the data frame via the attribute \code{project.id}.
   \code{\link{runsBySample}}, \code{\link{read.project.csv}}}
 
 \examples{
-ps=getProjectSummary("SRP047083")
-# Tabulate number of runs per by sample
-table(ps$Sample.ID)
-}
+\donttest{
+ps = getProjectSummary("MGYS00000646")
+# Tabulate number of runs by sample
+table(ps$sample_id)
+}}
 
 \keyword{EMG}

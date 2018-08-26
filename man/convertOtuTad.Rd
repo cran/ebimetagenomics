@@ -21,12 +21,13 @@ An R data frame representing a taxa abundance distribution (TAD). The first colu
 \seealso{\code{\link{getSampleOtu}}, \code{\link{getRunOtu}}, \code{\link{mergeOtu}}}
 
 \examples{
+\donttest{
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
 otu=getRunOtu(ps,runs[1])
 tad=convertOtuTad(otu)
 head(tad)
-}
+}}
 
 \keyword{EMG}

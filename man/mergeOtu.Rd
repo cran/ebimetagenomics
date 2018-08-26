@@ -21,6 +21,7 @@ An R data frame containing OTU count data. The first column is the OTU ID, the s
 \seealso{\code{\link{getSampleOtu}}, \code{\link{getRunOtu}}, \code{\link{projectRuns}}}
 
 \examples{
+\donttest{
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
@@ -31,8 +32,8 @@ otu2=getRunOtu(ps,runs[2])
 mergeOtu(otu1,otu2)
 
 # merge many:
-otuList=lapply(as.list(runs[1:10]),function(rid){getRunOtu(ps,rid)})
+otuList=lapply(as.list(runs[1:5]),function(rid){getRunOtu(ps,rid)})
 Reduce(mergeOtu,otuList)
-}
+}}
 
 \keyword{EMG}

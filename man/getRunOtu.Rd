@@ -24,10 +24,11 @@ An R data frame containing OTU count data. The first column is the OTU ID, the s
 \seealso{\code{\link{getSampleOtu}}, \code{\link{mergeOtu}}, \code{\link{projectRuns}}, \code{\link{convertOtuTad}}, \code{\link{plotOtu}}, \code{\link{read.otu.tsv}}}
 
 \examples{
+\donttest{
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
 getRunOtu(ps,runs[1])
-}
+}}
 
 \keyword{EMG}

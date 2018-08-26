@@ -5,47 +5,53 @@ require(vegan)
 require(breakaway)
 
 getProjectsList<-function() {
-    url="https://www.ebi.ac.uk/metagenomics/projects/doExportDetails?search=Search&studyVisibility=ALL_PUBLISHED_PROJECTS"
+    url="https://www.ebi.ac.uk/metagenomics/api/v1/studies?format=csv"
     pl=read.csv(url,stringsAsFactors=FALSE)
-    rownames(pl)=pl$Study.ID
+    rownames(pl)=pl$accession
     pl
 }
 
 read.project.csv<-function(fileName,projectID,...) {
     summ=read.csv(fileName,stringsAsFactors=FALSE,...)
-    rownames(summ)=summ$Run.ID
+    runID = sapply(sapply(summ$run,function(s){strsplit(s,'?',fixed=TRUE)[[1]][1]}),function(s){strsplit(s,'/',fixed=TRUE)[[1]]})
+    summ$run_id = runID[nrow(runID),]
+    sampleID = sapply(sapply(summ$sample,function(s){strsplit(s,'?',fixed=TRUE)[[1]][1]}),function(s){strsplit(s,'/',fixed=TRUE)[[1]]})
+    summ$sample_id = sampleID[nrow(sampleID),]
+    rownames(summ)=summ$run_id
     attr(summ,"project.id")=projectID
     summ
 }
 
 getProjectSummary<-function(projectID) {
-    url=paste("https://www.ebi.ac.uk/metagenomics/projects",projectID,"overview/doExport",sep="/")
+    url=paste("https://www.ebi.ac.uk/metagenomics/api/v1/studies",projectID,"analyses?include=sample&format=csv",sep="/")
     summ=read.project.csv(url,projectID)
     summ
 }
 
 projectSamples<-function(summ) {
-    unique(sort(summ$Sample.ID))
+    unique(sort(summ$sample_id))
 }
 
 projectRuns<-function(summ) {
-    summ$Run.ID
+    summ$run_id
 }
 
 runsBySample<-function(summ,sampleID) {
-    summ$Run.ID[summ$Sample.ID==sampleID]
+    summ$run_id[summ$sample_id == sampleID]
 }
 
 otu.url<-function(summ,runID) {
     runData=summ[runID,]
     projectID=attr(summ,"project.id")
-    if (runData["Release.version"] > 4) {
-      file="SSU-OTU-TSV"
+    if (runData["pipeline_version"] > 4) {
+        file="MERGED_FASTQ_SSU_OTU.tsv"
+    } else if (runData["pipeline_version"] > 1) {
+        file="MERGED_FASTQ_OTU.tsv"
     } else {
-      file="OTU-TSV"
+        file="FASTQ_OTU.tsv"
     }
-    url=paste("https://www.ebi.ac.uk/metagenomics//projects",projectID,"samples",runData["Sample.ID"],"runs",runID,"results/versions",sprintf("%.1f",runData["Release.version"]),"taxonomy",file,sep="/")
-    ##message(url) # DEBUG
+    url=paste("https://www.ebi.ac.uk/metagenomics/api/v1/analyses",runData$accession,"file",paste(runID,file,sep="_"),sep="/")
+    ## message(url) # DEBUG
     url
 }
 

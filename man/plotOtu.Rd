@@ -21,11 +21,12 @@ The function returns silently, and is called purely for its side-effect of rende
 \seealso{\code{\link{getSampleOtu}}, \code{\link{getRunOtu}}, \code{\link{convertOtuTad}}}
 
 \examples{
+\donttest{
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
 otu=getRunOtu(ps,runs[1])
 plotOtu(otu)
-}
+}}
 
 \keyword{EMG}

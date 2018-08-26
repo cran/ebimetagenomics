@@ -22,8 +22,9 @@ An R vector containing a list of strings representing EMG sample IDs.
   \code{\link{runsBySample}}}
 
 \examples{
+\donttest{
 ps=getProjectSummary("SRP047083")
 projectSamples(ps)
-}
+}}
 
 \keyword{EMG}
