@@ -25,7 +25,7 @@ An R data frame representing a taxa abundance distribution (TAD). The first colu
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
-otu=getRunOtu(ps,runs[1])
+otu=getRunOtu(runs[1])
 tad=convertOtuTad(otu)
 head(tad)
 }}

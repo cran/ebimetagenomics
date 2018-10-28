@@ -29,7 +29,7 @@ the results of various analyses. As well as computing various different estimate
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
-otu=getRunOtu(ps,runs[1])
+otu=getRunOtu(runs[1])
 analyseOtu(otu,plot=FALSE)
 }}
 

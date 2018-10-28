@@ -7,12 +7,11 @@ This function downloads an OTU count data file associated with a particular run 
 }
 
 \usage{
-getRunOtu(summ,runID,verb=FALSE,plot.preston=FALSE)
+getRunOtu(runID,verb=FALSE,plot.preston=FALSE)
 }
 
 \arguments{
-  \item{summ}{An EMG project summary file, as returned by \code{getProjectSummary}.}
-  \item{runID}{A string representing a valid EMG run ID within the project \code{summ}.}
+  \item{runID}{A string representing a valid run ID.}
   \item{verb}{If true, outputs \code{runID} to console.}
   \item{plot.preston}{If true, produces a Preston plot for the taxa abundance distribution of the run.}
 }
@@ -28,7 +27,7 @@ An R data frame containing OTU count data. The first column is the OTU ID, the s
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
-getRunOtu(ps,runs[1])
+getRunOtu(runs[1])
 }}
 
 \keyword{EMG}

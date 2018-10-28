@@ -25,7 +25,7 @@ The function returns silently, and is called purely for its side-effect of rende
 ps=getProjectSummary("SRP047083")
 samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
-otu=getRunOtu(ps,runs[1])
+otu=getRunOtu(runs[1])
 plotOtu(otu)
 }}
 

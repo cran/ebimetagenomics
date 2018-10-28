@@ -27,12 +27,12 @@ samp=projectSamples(ps)
 runs=runsBySample(ps,samp[2])
 
 # merge two:
-otu1=getRunOtu(ps,runs[1])
-otu2=getRunOtu(ps,runs[2])
+otu1=getRunOtu(runs[1])
+otu2=getRunOtu(runs[2])
 mergeOtu(otu1,otu2)
 
 # merge many:
-otuList=lapply(as.list(runs[1:5]),function(rid){getRunOtu(ps,rid)})
+otuList=lapply(as.list(runs[1:5]),function(rid){getRunOtu(rid)})
 Reduce(mergeOtu,otuList)
 }}
 

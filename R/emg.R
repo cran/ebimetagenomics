@@ -4,8 +4,10 @@ require(sads)
 require(vegan)
 require(breakaway)
 
+baseURL = "https://www.ebi.ac.uk/metagenomics/api/v1"
+
 getProjectsList<-function() {
-    url="https://www.ebi.ac.uk/metagenomics/api/v1/studies?format=csv"
+    url=paste(baseURL,"studies?format=csv",sep="/")
     pl=read.csv(url,stringsAsFactors=FALSE)
     rownames(pl)=pl$accession
     pl
@@ -23,7 +25,7 @@ read.project.csv<-function(fileName,projectID,...) {
 }
 
 getProjectSummary<-function(projectID) {
-    url=paste("https://www.ebi.ac.uk/metagenomics/api/v1/studies",projectID,"analyses?include=sample&format=csv",sep="/")
+    url=paste(baseURL,"studies",projectID,"analyses?include=sample&format=csv",sep="/")
     summ=read.project.csv(url,projectID)
     summ
 }
@@ -40,20 +42,22 @@ runsBySample<-function(summ,sampleID) {
     summ$run_id[summ$sample_id == sampleID]
 }
 
-otu.url<-function(summ,runID) {
-    runData=summ[runID,]
-    projectID=attr(summ,"project.id")
-    if (runData["pipeline_version"] > 4) {
-        file="MERGED_FASTQ_SSU_OTU.tsv"
-    } else if (runData["pipeline_version"] > 1) {
-        file="MERGED_FASTQ_OTU.tsv"
-    } else {
-        file="FASTQ_OTU.tsv"
+otu.url <- function(runID) {
+    analysisURL = paste(baseURL,"runs",runID,"analyses?format=csv",sep="/")
+    analysis = read.csv(analysisURL,stringsAsFactors=FALSE)
+    aurl = analysis$url
+    ##message(aurl) # DEBUG
+    stem = strsplit(aurl,'?',fixed=TRUE)[[1]][1]
+    durl = paste(stem,"downloads?format=csv",sep="/")
+    ##message(durl) # DEBUG
+    downloads = read.csv(durl,stringsAsFactors=FALSE)
+    downloads = downloads[substr(downloads$group_type,1,3)=="Tax",]
+    otuurl = downloads$url[grep("otu.tsv",downloads$id[substr(downloads$group_type,1,3)=="Tax"],ignore.case=TRUE)]
+    if (length(otuurl)>1)
+        otuurl = otuurl[grep("SSU",otuurl)][1]
+    ##message(otuurl) # DEBUG
+    otuurl
     }
-    url=paste("https://www.ebi.ac.uk/metagenomics/api/v1/analyses",runData$accession,"file",paste(runID,file,sep="_"),sep="/")
-    ## message(url) # DEBUG
-    url
-}
 
 read.otu.tsv<-function(fileName,...) {
     otu = read.delim(fileName,header=FALSE,skip=2,colClasses=c("character","numeric","character"),stringsAsFactors=FALSE,...)
@@ -62,8 +66,8 @@ read.otu.tsv<-function(fileName,...) {
     otu[order(-otu$Count),]
 }
 
-getRunOtu<-function(summ,runID,verb=FALSE,plot.preston=FALSE) {
-    url=otu.url(summ,runID)
+getRunOtu<-function(runID,verb=FALSE,plot.preston=FALSE) {
+    url=otu.url(runID)
     ##message(url) # DEBUG
     if (verb)
         message(runID)
@@ -87,7 +91,7 @@ getSampleOtu<-function(summ,sampleID,verb=TRUE,plot.preston=FALSE) {
     for (run in runs) {
         if (verb)
             message(paste(run,", ",sep=""),appendLF=FALSE)
-        otu=getRunOtu(summ,run,plot.preston=plot.preston)
+        otu=getRunOtu(run,plot.preston=plot.preston)
         runData[[run]]=otu
     }
     if (verb)
